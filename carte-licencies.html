@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Carte des licenciés | Judo Club du Lac</title>
+<meta name="description" content="Carte interactive et anonymisée de la provenance des licenciés du Judo Club du Lac.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+  :root{ --l1:#b9d4e8; --l2:#6aa6d6; --l3:#2e6fb0; --l4:#0b3d6b; --ink:#15314f; }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif;color:var(--ink)}
+  #map{height:100%;width:100%;background:#e8eef3}
+  .legend{background:#fff;padding:11px 13px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.15);line-height:1.5;font-size:.85rem}
+  .legend h4{margin:0 0 8px;font-size:.9rem}
+  .legend .row{display:flex;align-items:center;gap:8px;margin:4px 0}
+  .legend .box{width:18px;height:14px;border-radius:3px;border:1px solid #fff;box-shadow:0 0 0 1px #c3d4e2;flex:0 0 auto}
+  .leaflet-popup-content{font-size:.95rem;margin:10px 12px}
+  .leaflet-popup-content b{color:var(--ink)}
+  .lvl{display:inline-block;margin-top:2px;font-size:.8rem;color:#5a7790}
+  .loading{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;padding:10px 16px;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.15);font-size:.9rem;z-index:500}
+</style>
+</head>
+<body>
+<div id="map"><div class="loading" id="loading">Chargement de la carte…</div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+  // niveau : 2 = plusieurs · 3 = nombreux · 4 = cœur du club (aucun chiffre réel)
+  var communes = [
+    {n:"Villages du Lac de Paladru", lvl:4, lat:45.460, lon:5.527},
+    {n:"Charavines",                 lvl:3, lat:45.428, lon:5.516},
+    {n:"Oyeu",                       lvl:3, lat:45.412, lon:5.492},
+    {n:"Les Abrets-en-Dauphiné",     lvl:3, lat:45.538, lon:5.585},
+    {n:"Bilieu",                     lvl:3, lat:45.448, lon:5.547},
+    {n:"Montferrat",                 lvl:2, lat:45.451, lon:5.583},
+    {n:"Val-de-Virieu",              lvl:2, lat:45.487, lon:5.480},
+    {n:"Voiron",                     lvl:2, lat:45.366, lon:5.590},
+    {n:"Saint-Bueil",                lvl:2, lat:45.404, lon:5.610},
+    {n:"Doissin",                    lvl:2, lat:45.503, lon:5.430},
+    {n:"Châbons",                    lvl:2, lat:45.443, lon:5.429},
+    {n:"Chélieu",                    lvl:2, lat:45.513, lon:5.476},
+    {n:"Bizonnes",                   lvl:2, lat:45.451, lon:5.443},
+    {n:"Saint-Geoire-en-Valdaine",   lvl:2, lat:45.435, lon:5.628},
+    {n:"Valencogne",                 lvl:2, lat:45.509, lon:5.521},
+    {n:"Le Passage",                 lvl:2, lat:45.522, lon:5.498},
+    {n:"Biol",                       lvl:2, lat:45.498, lon:5.393},
+    {n:"Montrevel",                  lvl:2, lat:45.474, lon:5.589},
+    {n:"Chirens",                    lvl:2, lat:45.404, lon:5.561},
+    {n:"Le Grand-Lemps",             lvl:2, lat:45.397, lon:5.425}
+  ];
+
+  function cssv(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+  var COLORS = {2:cssv('--l2'),3:cssv('--l3'),4:cssv('--l4')};
+  var LABELS = {2:"Plusieurs licenciés",3:"Nombreux licenciés",4:"Cœur du club"};
+
+  var map = L.map('map', {scrollWheelZoom:true}).setView([45.46, 5.52], 11);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom:18,
+    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
+
+  function styleFor(lvl){
+    return {fillColor:COLORS[lvl], fillOpacity:0.62, color:'#ffffff', weight:1.5, opacity:0.9};
+  }
+
+  var layers = [];
+
+  function addPolygon(feature, c){
+    var lyr = L.geoJSON(feature, {style:styleFor(c.lvl)}).addTo(map);
+    lyr.bindTooltip(c.n, {sticky:true});
+    lyr.bindPopup('<b>'+c.n+'</b><br><span class="lvl">'+LABELS[c.lvl]+'</span>');
+    lyr.on('mouseover', function(){ lyr.setStyle({fillOpacity:0.82, weight:2.5}); });
+    lyr.on('mouseout',  function(){ lyr.setStyle(styleFor(c.lvl)); });
+    layers.push(lyr);
+  }
+
+  function addFallback(c){
+    var m = L.circleMarker([c.lat, c.lon], {radius:11, color:'#fff', weight:2, fillColor:COLORS[c.lvl], fillOpacity:0.9}).addTo(map);
+    m.bindTooltip(c.n, {direction:'top'});
+    m.bindPopup('<b>'+c.n+'</b><br><span class="lvl">'+LABELS[c.lvl]+'</span>');
+    layers.push(m);
+  }
+
+  var jobs = communes.map(function(c){
+    var url = 'https://geo.api.gouv.fr/communes?nom='+encodeURIComponent(c.n)+
+              '&codeDepartement=38&fields=nom,contour&format=geojson&geometry=contour';
+    return fetch(url).then(function(r){return r.json();}).then(function(gj){
+      if(gj && gj.features && gj.features.length){ addPolygon(gj.features[0], c); }
+      else { addFallback(c); }
+    }).catch(function(){ addFallback(c); });
+  });
+
+  Promise.all(jobs).then(function(){
+    var el = document.getElementById('loading'); if(el) el.remove();
+    if(layers.length){
+      try { map.fitBounds(L.featureGroup(layers).getBounds().pad(0.08)); } catch(e){}
+    }
+  });
+
+  var legend = L.control({position:'bottomright'});
+  legend.onAdd = function(){
+    var d = L.DomUtil.create('div','legend');
+    var html = '<h4>Présence des licenciés</h4>';
+    [4,3,2].forEach(function(l){
+      html += '<div class="row"><span class="box" style="background:'+COLORS[l]+'"></span>'+LABELS[l]+'</div>';
+    });
+    d.innerHTML = html;
+    return d;
+  };
+  legend.addTo(map);
+</script>
+</body>
+</html>

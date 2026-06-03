@@ -11,6 +11,10 @@
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="geo.region" content="FR-38">
+<meta name="geo.placename" content="Le Pin, Villages du Lac de Paladru">
+<meta name="geo.position" content="45.452;5.519">
+<meta name="ICBM" content="45.452, 5.519">
 <title>Judo Club du Lac — Site officiel</title>
 <meta name="description" content="Site officiel du Judo Club du Lac Charavines situé au Pin. Toutes les informations et actualités du club et des cours de judo.">
 <meta property="og:title" content="Judo Club du Lac Charavines (Le Pin) — Site officiel">
@@ -27,7 +31,8 @@
   "@context": "https://schema.org",
   "@type": "SportsClub",
   "name": "Judo Club du Lac",
-  "description": "Club de judo situé a Le Pin, autour du lac de Paladru, près de Charavines et Voiron. Cours de judo pour enfants et adultes depuis 1971.",
+  "alternateName": "Judo Club du Lac Charavines",
+  "description": "Club de judo situé au Pin, autour du lac de Paladru, près de Charavines et de Voiron. Cours de judo pour enfants, adolescents et adultes, débutants ou confirmés, depuis 1971.",
   "sport": "Judo",
   "foundingDate": "1971",
   "url": "https://judoclubdulac.fr/",
@@ -43,7 +48,27 @@
     "addressRegion": "Isère",
     "addressCountry": "FR"
   },
-  "areaServed": ["Charavines", "Le Pin", "Paladru", "Voiron", "Isère"],
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 45.452,
+    "longitude": 5.519
+  },
+  "areaServed": [
+    {"@type": "City", "name": "Charavines"},
+    {"@type": "City", "name": "Le Pin"},
+    {"@type": "City", "name": "Paladru"},
+    {"@type": "City", "name": "Villages du Lac de Paladru"},
+    {"@type": "City", "name": "Montferrat"},
+    {"@type": "City", "name": "Chirens"},
+    {"@type": "City", "name": "Bilieu"},
+    {"@type": "City", "name": "Oyeu"},
+    {"@type": "City", "name": "Virieu"},
+    {"@type": "City", "name": "Châbons"},
+    {"@type": "City", "name": "Le Grand-Lemps"},
+    {"@type": "City", "name": "Voiron"},
+    {"@type": "City", "name": "La Tour-du-Pin"}
+  ],
+  "knowsAbout": ["Judo", "Arts martiaux", "Self-défense", "Jujitsu", "Taïso"],
   "sameAs": "https://maps.google.com/?cid=11356528706265056698"
 }
 </script>
@@ -51,6 +76,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
+<style>main > .section{padding-top:34px;padding-bottom:34px}</style>
 </head>
 <body>
 <div class="announce">
@@ -134,6 +160,25 @@
   </div>
 </section>
 
+<section class="section">
+  <div class="container prose reveal">
+    <h2 class="section-title">Un club de judo entre les Vals du Dauphiné et le Pays Voironnais</h2>
+    <p>Vous cherchez un club de judo près de chez vous ? Situé au Pin, à deux pas de Charavines et du lac de Paladru, le Judo Club du Lac accueille depuis 1971 des judokas venus de tout le secteur, entre les Vals du Dauphiné et le Pays Voironnais : Charavines, Le Pin, Paladru, Montferrat, Chirens, Bilieu, Oyeu, Virieu, Châbons, Le Grand-Lemps, Voiron, La Tour-du-Pin et alentours.</p>
+    <p>Que ce soit pour un cours de judo enfant, ado ou adulte, en initiation ou en perfectionnement, notre club vous accueille dans une ambiance conviviale, à quelques minutes de chez vous autour du lac de Paladru.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title reveal">D'où viennent nos licenciés ?<sup style="font-size:.42em;color:#d4a017;margin-left:6px;white-space:nowrap">★ 2026</sup></h2>
+    <p class="section-intro reveal">Survolez une commune : plus la couleur est foncée, plus le club y compte de licenciés.</p>
+    <div class="reveal" style="border-radius:16px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.12);max-width:920px;margin:0 auto">
+      <iframe src="carte-licencies.html" title="Carte des licenciés du Judo Club du Lac" loading="lazy" style="width:100%;height:540px;border:0;display:block"></iframe>
+    </div>
+    <p class="reveal" style="text-align:center;font-size:.8rem;color:#7089a0;margin-top:12px">★ Répartition indicative — saison 2026. Données anonymisées, aucun effectif précis n'est affiché.</p>
+  </div>
+</section>
+
 <section class="section section--alt">
   <div class="container">
     <h2 class="section-title reveal">Le code moral du judo</h2>
@@ -147,6 +192,7 @@
     <div class="footer-brand">
       <img src="assets/img/logo-header.jpg" alt="Judo Club du Lac">
       <p>Depuis 1971, le Judo Club du Lac fait découvrir le judo aux jeunes et moins jeunes au Pin, autour du lac de Paladru. Convivialité, amitié, sérieux et progression.</p>
+      <p style="font-size:.85rem;opacity:.85;margin-top:10px">Cours de judo pour Charavines, Le Pin, Paladru, Montferrat, Chirens, Bilieu, Oyeu, Virieu, Châbons, Le Grand-Lemps, le secteur de Voiron et La Tour-du-Pin.</p>
     </div>
     <div>
       <h4>Navigation</h4>
