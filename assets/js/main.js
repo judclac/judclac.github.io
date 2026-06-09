@@ -59,27 +59,137 @@
   window.closeLightbox = closeLightbox;
 
   if (lightbox) {
-    var lbImg  = lightbox.querySelector("[data-lb-img]");
-    var lbDate = lightbox.querySelector("[data-lb-date]");
-    var lbDesc = lightbox.querySelector("[data-lb-desc]");
+    var lbImg    = lightbox.querySelector("[data-lb-img]");
+    var lbDate   = lightbox.querySelector("[data-lb-date]");
+    var lbDesc   = lightbox.querySelector("[data-lb-desc]");
+    var lbPrev   = lightbox.querySelector("[data-lb-prev]");
+    var lbNext   = lightbox.querySelector("[data-lb-next]");
+    var lbCount  = lightbox.querySelector("[data-lb-count]");
+    var lbThumbs = lightbox.querySelector("[data-lb-thumbs]");
+
+    var photos = [];   /* photos de l'événement ouvert */
+    var index  = 0;    /* photo affichée */
+    var lbAlt  = "";
+
+    function renderPhoto() {
+      if (lbImg) { lbImg.src = photos[index] || ""; lbImg.alt = lbAlt; }
+      if (lbCount) lbCount.textContent = (index + 1) + " / " + photos.length;
+      if (lbThumbs) {
+        lbThumbs.querySelectorAll("img").forEach(function (t, i) {
+          t.classList.toggle("active", i === index);
+        });
+        var act = lbThumbs.querySelectorAll("img")[index];
+        if (act && act.scrollIntoView) act.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
+      }
+    }
+
+    function goTo(i) {
+      if (!photos.length) return;
+      index = (i + photos.length) % photos.length;
+      renderPhoto();
+    }
+
+    function openEvent(ev) {
+      var multi = ev.getAttribute("data-photos");
+      photos = multi ? multi.split("|").map(function (s) { return s.trim(); }).filter(Boolean)
+                     : [ev.getAttribute("data-full") || ev.querySelector("img").src];
+      index = 0;
+      lbAlt = ev.getAttribute("data-date") || "";
+      if (lbDate) lbDate.textContent = ev.getAttribute("data-date") || "";
+      if (lbDesc) lbDesc.textContent = ev.getAttribute("data-desc") || "";
+
+      var several = photos.length > 1;
+      lightbox.classList.toggle("multi", several);
+      if (lbPrev)  lbPrev.style.display  = several ? "" : "none";
+      if (lbNext)  lbNext.style.display  = several ? "" : "none";
+      if (lbCount) lbCount.style.display = several ? "" : "none";
+      if (lbThumbs) {
+        lbThumbs.innerHTML = "";
+        lbThumbs.style.display = several ? "" : "none";
+        if (several) {
+          photos.forEach(function (src, i) {
+            var t = document.createElement("img");
+            t.src = src; t.loading = "lazy"; t.alt = "";
+            t.addEventListener("click", function (e) { e.stopPropagation(); goTo(i); });
+            lbThumbs.appendChild(t);
+          });
+        }
+      }
+      renderPhoto();
+      lightbox.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
 
     document.querySelectorAll(".event").forEach(function (ev) {
       ev.setAttribute("tabindex", "0");
       ev.setAttribute("role", "button");
-      function open() {
-        if (lbImg)  { lbImg.src = ev.getAttribute("data-full") || ev.querySelector("img").src; lbImg.alt = ev.getAttribute("data-date") || ""; }
-        if (lbDate) lbDate.textContent = ev.getAttribute("data-date") || "";
-        if (lbDesc) lbDesc.textContent = ev.getAttribute("data-desc") || "";
-        lightbox.classList.add("open");
-        document.body.style.overflow = "hidden";
-      }
-      ev.addEventListener("click", open);
-      ev.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
+      ev.addEventListener("click", function () { openEvent(ev); });
+      ev.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openEvent(ev); } });
     });
+
+    if (lbPrev) lbPrev.addEventListener("click", function (e) { e.stopPropagation(); goTo(index - 1); });
+    if (lbNext) lbNext.addEventListener("click", function (e) { e.stopPropagation(); goTo(index + 1); });
+
+    document.addEventListener("keydown", function (e) {
+      if (!lightbox.classList.contains("open") || photos.length < 2) return;
+      if (e.key === "ArrowLeft")  goTo(index - 1);
+      if (e.key === "ArrowRight") goTo(index + 1);
+    });
+
+    /* Navigation tactile (balayage gauche/droite) */
+    var touchX = null;
+    lightbox.addEventListener("touchstart", function (e) { touchX = e.changedTouches[0].clientX; }, { passive: true });
+    lightbox.addEventListener("touchend", function (e) {
+      if (touchX === null || photos.length < 2) { touchX = null; return; }
+      var dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 45) goTo(dx > 0 ? index - 1 : index + 1);
+      touchX = null;
+    }, { passive: true });
 
     lightbox.addEventListener("click", function (e) {
       if (e.target === lightbox || e.target.hasAttribute("data-lb-close")) closeLightbox();
     });
+  }
+
+  /* ---------- Événements récents (accueil) ----------
+     Les 2 derniers événements de historique.html sont chargés
+     automatiquement : il suffit de mettre à jour l'historique. */
+  var recent = document.querySelector("[data-recent-events]");
+  if (recent && window.fetch && window.DOMParser) {
+    fetch("historique.html").then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      return r.text();
+    }).then(function (html) {
+      var doc = new DOMParser().parseFromString(html, "text/html");
+      var evs = doc.querySelectorAll(".season .gallery .event");
+      if (!evs.length) return;
+      var cards = [];
+      Array.prototype.slice.call(evs, 0, 2).forEach(function (ev) {
+        var imgSrc = ev.getAttribute("data-full") || "";
+        if (!imgSrc) { var im = ev.querySelector("img"); imgSrc = im ? im.getAttribute("src") : ""; }
+        var card = document.createElement("article");
+        card.className = "card reveal in";
+        var media = document.createElement("div");
+        media.className = "card__media";
+        var img = document.createElement("img");
+        img.loading = "lazy"; img.src = imgSrc; img.alt = ev.getAttribute("data-date") || "";
+        media.appendChild(img);
+        var body = document.createElement("div");
+        body.className = "card__body";
+        var date = document.createElement("span");
+        date.className = "card__date";
+        date.textContent = ev.getAttribute("data-date") || "";
+        var p = document.createElement("p");
+        p.textContent = ev.getAttribute("data-desc") || "";
+        body.appendChild(date); body.appendChild(p);
+        card.appendChild(media); card.appendChild(body);
+        cards.push(card);
+      });
+      if (cards.length) {
+        recent.innerHTML = "";
+        cards.forEach(function (c) { recent.appendChild(c); });
+      }
+    }).catch(function () { /* en cas d'échec, le contenu statique reste affiché */ });
   }
 
   /* ---------- Année dynamique dans le pied de page ---------- */

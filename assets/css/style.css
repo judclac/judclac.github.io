@@ -322,6 +322,19 @@ a.card:hover .card__link { text-decoration: underline; }
 .lightbox__close { position: fixed; top: 18px; right: 20px; width: 44px; height: 44px; border-radius: 50%; background: #fff; border: 0; font-size: 1.5rem; cursor: pointer; box-shadow: var(--shadow); color: var(--primary-dark); }
 @keyframes fade { from { opacity: 0 } to { opacity: 1 } }
 
+/* ---------- Lightbox multi-photos (carrousel) ---------- */
+.lightbox.multi .lightbox__inner { max-width: 760px; }
+.lightbox__media { position: relative; background: #0b2540; }
+.lightbox__nav { position: absolute; top: 50%; transform: translateY(-50%); width: 42px; height: 42px; border-radius: 50%; border: 0; background: rgba(255,255,255,.92); color: var(--primary-dark); font-size: 1.3rem; line-height: 1; cursor: pointer; box-shadow: var(--shadow); display: grid; place-items: center; transition: .2s var(--ease); z-index: 2; }
+.lightbox__nav:hover { background: #fff; transform: translateY(-50%) scale(1.08); }
+.lightbox__nav--prev { left: 12px; }
+.lightbox__nav--next { right: 12px; }
+.lightbox__count { position: absolute; bottom: 10px; right: 12px; background: rgba(6,18,32,.7); color: #fff; font-size: .8rem; font-weight: 600; padding: 4px 10px; border-radius: 999px; z-index: 2; }
+.lightbox__thumbs { display: flex; gap: 8px; padding: 10px 12px; overflow-x: auto; background: #0b2540; scrollbar-width: thin; }
+.lightbox__inner .lightbox__thumbs img { width: 64px; height: 48px; flex: 0 0 auto; object-fit: cover; border-radius: 6px; cursor: pointer; opacity: .55; border: 2px solid transparent; transition: .2s var(--ease); max-height: none; }
+.lightbox__inner .lightbox__thumbs img:hover { opacity: .85; }
+.lightbox__inner .lightbox__thumbs img.active { opacity: 1; border-color: #fff; }
+
 /* ===================================================================
    Le club / contenu riche
    =================================================================== */

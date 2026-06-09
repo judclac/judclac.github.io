@@ -79,10 +79,6 @@
 <style>main > .section{padding-top:34px;padding-bottom:34px}</style>
 </head>
 <body>
-<div class="announce">
-  📅 Tournoi du club le dimanche 7 juin à Charavines — <a href="assets/docs/tournoi-2026.pdf" target="_blank" rel="noopener">En savoir plus</a>
-  <button class="announce__close" aria-label="Fermer l'annonce">&times;</button>
-</div>
 <header class="site-header">
   <nav class="container nav" aria-label="Navigation principale">
     <a class="nav__logo" href="index.html">
@@ -142,16 +138,18 @@
   <div class="container">
     <h2 class="section-title reveal">Évènements récents</h2>
     <p class="section-intro reveal">Les dernières actualités du club.</p>
-    <div class="grid grid--2">
+    <!-- Rempli automatiquement avec les 2 derniers événements de historique.html (voir main.js).
+         Le contenu ci-dessous sert de secours si le chargement échoue. -->
+    <div class="grid grid--2" data-recent-events>
+      <article class="card reveal">
+        <div class="card__media"><img loading="lazy" src="assets/img/photos/tournoi-2026-groupe.jpeg" alt="Tournoi du club 2026"></div>
+        <div class="card__body"><span class="card__date">Dimanche 7 juin — Tournoi du club</span>
+          <p>Tournoi du club à la salle des Cèdres (Charavines). Une belle journée de judo dans la bonne humeur ! Un grand merci aux bénévoles et aux accompagnants, sans qui rien ne serait possible.</p></div>
+      </article>
       <article class="card reveal">
         <div class="card__media"><img loading="lazy" src="assets/img/photos/calendrier-2026.jpg" alt="Calendrier 2026"></div>
         <div class="card__body"><span class="card__date">Calendrier 2026</span>
           <p>Les calendriers et photos du club sont disponibles à l'achat dès maintenant et jusqu'au 19 décembre. Plus d'infos auprès du club.</p></div>
-      </article>
-      <article class="card reveal">
-        <div class="card__media"><img loading="lazy" src="assets/img/photos/stages-multiactivites.jpeg" alt="Stages multiactivités"></div>
-        <div class="card__body"><span class="card__date">Stages multiactivités</span>
-          <p>Les stages multiactivités 8/12 ans proposés par le club se sont déroulés en avril et en juillet. Au programme : activités nautiques, jeux collectifs, orientation et bien sûr judo !</p></div>
       </article>
     </div>
     <div style="text-align:center;margin-top:30px" class="reveal">

@@ -27,10 +27,6 @@
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-<div class="announce">
-  📅 Tournoi du club le dimanche 7 juin à Charavines — <a href="assets/docs/tournoi-2026.pdf" target="_blank" rel="noopener">En savoir plus</a>
-  <button class="announce__close" aria-label="Fermer l'annonce">&times;</button>
-</div>
 <header class="site-header">
   <nav class="container nav" aria-label="Navigation principale">
     <a class="nav__logo" href="index.html">
@@ -51,7 +47,11 @@
 <section class="section"><div class="container">
   <p class="section-intro reveal">Cliquez sur une image pour afficher le texte en entier.</p>
   <div class="season reveal"><h2 class="season__title">2025 / 2026</h2><div class="gallery">
-        <article class="event" data-full="assets/img/photos/calendrier-2026.jpg" data-date="Jusqu&#x27;au 19 décembre" data-desc="Les calendriers et photos du club sont disponibles à l&#x27;achat dès maintenant et jusqu&#x27;au 19 décembre.">
+        <article class="event" data-full="assets/img/photos/tournoi-2026-groupe.jpeg" data-photos="assets/img/photos/tournoi-2026-groupe.jpeg|assets/img/photos/tournoi-2026-1.jpeg|assets/img/photos/tournoi-2026-2.jpeg|assets/img/photos/tournoi-2026-3.jpeg|assets/img/photos/tournoi-2026-4.jpeg|assets/img/photos/tournoi-2026-5.jpeg|assets/img/photos/tournoi-2026-6.jpeg|assets/img/photos/tournoi-2026-7.jpeg|assets/img/photos/tournoi-2026-8.jpeg|assets/img/photos/tournoi-2026-10.jpeg|assets/img/photos/tournoi-2026-11.jpeg|assets/img/photos/tournoi-2026-12.jpeg|assets/img/photos/tournoi-2026-13.jpeg|assets/img/photos/tournoi-2026-14.jpeg" data-date="Dimanche 7 juin" data-desc="Tournoi du club à la salle des Cèdres (Charavines). Une belle journée de judo dans la bonne humeur ! Un grand merci aux bénévoles et aux accompagnants, sans qui rien ne serait possible, ainsi qu&#x27;aux clubs venus partager ce moment. Bravo à tous les judokas qui se sont exprimés dans l&#x27;esprit et les valeurs du judo.">
+          <img loading="lazy" src="assets/img/photos/tournoi-2026-groupe.jpeg" alt="Dimanche 7 juin — Tournoi du club 2026">
+          <span class="event__plus">+</span>
+          <div class="event__overlay"><span class="event__date">Dimanche 7 juin</span><span class="event__teaser">Tournoi du club à la salle des Cèdres (Charavines). Une belle journée de judo dans la bonne humeur ! Un grand merci aux bénévoles et aux accompagnants…</span></div>
+        </article><article class="event" data-full="assets/img/photos/calendrier-2026.jpg" data-date="Jusqu&#x27;au 19 décembre" data-desc="Les calendriers et photos du club sont disponibles à l&#x27;achat dès maintenant et jusqu&#x27;au 19 décembre.">
           <img loading="lazy" src="assets/img/photos/calendrier-2026.jpg" alt="Jusqu&#x27;au 19 décembre">
           <span class="event__plus">+</span>
           <div class="event__overlay"><span class="event__date">Jusqu'au 19 décembre</span><span class="event__teaser">Les calendriers et photos du club sont disponibles à l'achat dès maintenant et jusqu'au 19 décembre.</span></div>
@@ -197,7 +197,13 @@
 <div class="lightbox" id="lightbox" aria-hidden="true">
   <button class="lightbox__close" data-lb-close aria-label="Fermer">&times;</button>
   <div class="lightbox__inner">
-    <img data-lb-img src="" alt="">
+    <div class="lightbox__media">
+      <img data-lb-img src="" alt="">
+      <button class="lightbox__nav lightbox__nav--prev" data-lb-prev aria-label="Photo précédente" style="display:none">&#10094;</button>
+      <button class="lightbox__nav lightbox__nav--next" data-lb-next aria-label="Photo suivante" style="display:none">&#10095;</button>
+      <span class="lightbox__count" data-lb-count style="display:none"></span>
+    </div>
+    <div class="lightbox__thumbs" data-lb-thumbs style="display:none"></div>
     <div class="lightbox__txt"><span class="card__date" data-lb-date></span><p data-lb-desc></p></div>
   </div>
 </div></main>
