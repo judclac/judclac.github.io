@@ -322,6 +322,35 @@ a.card:hover .card__link { text-decoration: underline; }
 .lightbox__close { position: fixed; top: 18px; right: 20px; width: 44px; height: 44px; border-radius: 50%; background: #fff; border: 0; font-size: 1.5rem; cursor: pointer; box-shadow: var(--shadow); color: var(--primary-dark); }
 @keyframes fade { from { opacity: 0 } to { opacity: 1 } }
 
+/* ---------- Indicateur multi-photos ---------- */
+.photo-badge {
+  position: absolute; top: 10px; left: 10px; z-index: 2;
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(6,18,32,.72); color: #fff;
+  font-family: var(--font-head); font-weight: 600; font-size: .76rem;
+  padding: 5px 11px; border-radius: 999px;
+  backdrop-filter: blur(3px); pointer-events: none;
+}
+.photo-badge svg { flex: 0 0 auto; }
+.card__media { position: relative; }
+.card--event { cursor: pointer; }
+/* effet « pile de photos » sous la couverture (galerie historique) */
+.event.has-photos { box-shadow: var(--shadow), 0 6px 0 -3px #fff, 0 11px 0 -6px #c9d6e2; }
+.event.has-photos:hover { box-shadow: var(--shadow-lg), 0 6px 0 -3px #fff, 0 11px 0 -6px #c9d6e2; }
+/* invitation au clic sur les cartes de l'accueil */
+.card--event .card__media::after {
+  content: "Agrandir";
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(.85);
+  background: rgba(255,255,255,.94); color: var(--primary-dark);
+  font-family: var(--font-head); font-weight: 600; font-size: .85rem;
+  padding: 8px 16px; border-radius: 999px;
+  opacity: 0; transition: .25s var(--ease);
+  box-shadow: var(--shadow); pointer-events: none; white-space: nowrap;
+}
+.card--event.has-photos .card__media::after { content: "Voir les photos"; }
+.card--event:hover .card__media::after { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+
 /* ---------- Lightbox multi-photos (carrousel) ---------- */
 .lightbox.multi .lightbox__inner { max-width: 760px; }
 .lightbox__media { position: relative; background: #0b2540; }

@@ -52,6 +52,21 @@
 
   /* ---------- Lightbox de la galerie historique ---------- */
   var lightbox = document.getElementById("lightbox");
+  var bindLightboxEvent = null; /* défini plus bas, utilisé aussi par les événements récents */
+
+  /* Badge « N photos » sur les événements multi-photos */
+  function decoratePhotoCount(el) {
+    var multi = el.getAttribute("data-photos");
+    if (!multi) return;
+    var n = multi.split("|").filter(function (s) { return s.trim(); }).length;
+    if (n < 2 || el.querySelector(".photo-badge")) return;
+    el.classList.add("has-photos");
+    var target = el.querySelector(".card__media") || el;
+    var badge = document.createElement("span");
+    badge.className = "photo-badge";
+    badge.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="14" height="14" rx="2"/><path d="M7 7V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2"/></svg>' + n + " photos";
+    target.appendChild(badge);
+  }
 
   function closeLightbox() {
     if (lightbox) { lightbox.classList.remove("open"); document.body.style.overflow = ""; }
@@ -120,12 +135,15 @@
       document.body.style.overflow = "hidden";
     }
 
-    document.querySelectorAll(".event").forEach(function (ev) {
-      ev.setAttribute("tabindex", "0");
-      ev.setAttribute("role", "button");
-      ev.addEventListener("click", function () { openEvent(ev); });
-      ev.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openEvent(ev); } });
-    });
+    bindLightboxEvent = function (el) {
+      el.setAttribute("tabindex", "0");
+      el.setAttribute("role", "button");
+      el.classList.add("card--event");
+      el.addEventListener("click", function () { openEvent(el); });
+      el.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openEvent(el); } });
+      decoratePhotoCount(el);
+    };
+    document.querySelectorAll(".event, [data-recent-events] .card[data-full]").forEach(bindLightboxEvent);
 
     if (lbPrev) lbPrev.addEventListener("click", function (e) { e.stopPropagation(); goTo(index - 1); });
     if (lbNext) lbNext.addEventListener("click", function (e) { e.stopPropagation(); goTo(index + 1); });
@@ -183,6 +201,12 @@
         p.textContent = ev.getAttribute("data-desc") || "";
         body.appendChild(date); body.appendChild(p);
         card.appendChild(media); card.appendChild(body);
+        /* attributs nécessaires à la lightbox (photos multiples, texte) */
+        ["data-full", "data-photos", "data-date", "data-desc"].forEach(function (a) {
+          var v = ev.getAttribute(a);
+          if (v) card.setAttribute(a, v);
+        });
+        if (bindLightboxEvent) bindLightboxEvent(card);
         cards.push(card);
       });
       if (cards.length) {

@@ -141,12 +141,12 @@
     <!-- Rempli automatiquement avec les 2 derniers événements de historique.html (voir main.js).
          Le contenu ci-dessous sert de secours si le chargement échoue. -->
     <div class="grid grid--2" data-recent-events>
-      <article class="card reveal">
+      <article class="card reveal" data-full="assets/img/photos/tournoi-2026-groupe.jpeg" data-photos="assets/img/photos/tournoi-2026-groupe.jpeg|assets/img/photos/tournoi-2026-1.jpeg|assets/img/photos/tournoi-2026-2.jpeg|assets/img/photos/tournoi-2026-3.jpeg|assets/img/photos/tournoi-2026-4.jpeg|assets/img/photos/tournoi-2026-5.jpeg|assets/img/photos/tournoi-2026-6.jpeg|assets/img/photos/tournoi-2026-7.jpeg|assets/img/photos/tournoi-2026-8.jpeg|assets/img/photos/tournoi-2026-10.jpeg|assets/img/photos/tournoi-2026-11.jpeg|assets/img/photos/tournoi-2026-12.jpeg|assets/img/photos/tournoi-2026-14.jpeg" data-date="Dimanche 7 juin" data-desc="Tournoi du club à la salle des Cèdres (Charavines). Une belle journée de judo ! Un grand merci aux bénévoles et aux accompagnants, sans qui rien ne serait possible, ainsi qu&#x27;aux clubs venus partager ce moment. Bravo à tous les judokas qui se sont exprimés dans l&#x27;esprit et les valeurs du judo.">
         <div class="card__media"><img loading="lazy" src="assets/img/photos/tournoi-2026-groupe.jpeg" alt="Tournoi du club 2026"></div>
         <div class="card__body"><span class="card__date">Dimanche 7 juin — Tournoi du club</span>
-          <p>Tournoi du club à la salle des Cèdres (Charavines). Une belle journée de judo dans la bonne humeur ! Un grand merci aux bénévoles et aux accompagnants, sans qui rien ne serait possible.</p></div>
+          <p>Tournoi du club à la salle des Cèdres (Charavines). Une belle journée de judo ! Un grand merci aux bénévoles et aux accompagnants, sans qui rien ne serait possible.</p></div>
       </article>
-      <article class="card reveal">
+      <article class="card reveal" data-full="assets/img/photos/calendrier-2026.jpg" data-date="Calendrier 2026" data-desc="Les calendriers et photos du club sont disponibles à l&#x27;achat dès maintenant et jusqu&#x27;au 19 décembre. Plus d&#x27;infos auprès du club.">
         <div class="card__media"><img loading="lazy" src="assets/img/photos/calendrier-2026.jpg" alt="Calendrier 2026"></div>
         <div class="card__body"><span class="card__date">Calendrier 2026</span>
           <p>Les calendriers et photos du club sont disponibles à l'achat dès maintenant et jusqu'au 19 décembre. Plus d'infos auprès du club.</p></div>
@@ -184,6 +184,20 @@
     <div class="moral"><div class="moral__item reveal"><h4>La politesse</h4><p>C'est le respect d'autrui.</p></div><div class="moral__item reveal"><h4>Le courage</h4><p>C'est faire ce qui est juste.</p></div><div class="moral__item reveal"><h4>La sincérité</h4><p>C'est s'exprimer sans déguiser sa pensée.</p></div><div class="moral__item reveal"><h4>L'honneur</h4><p>C'est être fidèle à la parole donnée.</p></div><div class="moral__item reveal"><h4>La modestie</h4><p>C'est parler de soi-même sans orgueil.</p></div><div class="moral__item reveal"><h4>Le respect</h4><p>Sans respect, aucune confiance ne peut naître.</p></div><div class="moral__item reveal"><h4>Le contrôle de soi</h4><p>C'est savoir se taire lorsque monte la colère.</p></div><div class="moral__item reveal"><h4>L'amitié</h4><p>C'est le plus pur et le plus fort des sentiments humains.</p></div></div>
   </div>
 </section>
+
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lightbox__close" data-lb-close aria-label="Fermer">&times;</button>
+  <div class="lightbox__inner">
+    <div class="lightbox__media">
+      <img data-lb-img src="" alt="">
+      <button class="lightbox__nav lightbox__nav--prev" data-lb-prev aria-label="Photo précédente" style="display:none">&#10094;</button>
+      <button class="lightbox__nav lightbox__nav--next" data-lb-next aria-label="Photo suivante" style="display:none">&#10095;</button>
+      <span class="lightbox__count" data-lb-count style="display:none"></span>
+    </div>
+    <div class="lightbox__thumbs" data-lb-thumbs style="display:none"></div>
+    <div class="lightbox__txt"><span class="card__date" data-lb-date></span><p data-lb-desc></p></div>
+  </div>
+</div>
 </main>
 <footer class="site-footer">
   <div class="container footer-grid">
