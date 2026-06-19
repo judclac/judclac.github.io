@@ -92,17 +92,26 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; font-weight: 7
    En-tête : bannière annonce + barre de navigation
    =================================================================== */
 .announce {
-  background: var(--accent); color: #fff;
-  font-size: .9rem; text-align: center;
-  padding: 8px 44px 8px 16px; position: relative;
+  background: #d4a017; color: #082942;
+  font-size: .95rem; font-weight: 600; text-align: center;
+  padding: 10px 48px 10px 16px; position: relative;
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px;
 }
 .announce a { font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+.announce a.announce__btn {
+  background: #082942; color: #fff;
+  font-family: var(--font-head); font-weight: 600; font-size: .85rem;
+  padding: 6px 16px; border-radius: 999px; text-decoration: none;
+  box-shadow: 0 1px 5px rgba(0,0,0,.2);
+  transition: transform .2s var(--ease), background .2s var(--ease);
+}
+.announce a.announce__btn:hover { transform: scale(1.06); background: #0d3a5c; }
 .announce__close {
   position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
-  background: rgba(255,255,255,.2); border: 0; color: #fff;
+  background: rgba(8,41,66,.12); border: 0; color: #082942;
   width: 26px; height: 26px; border-radius: 50%; cursor: pointer; font-size: 1rem; line-height: 1;
 }
-.announce__close:hover { background: rgba(255,255,255,.35); }
+.announce__close:hover { background: rgba(8,41,66,.25); }
 
 .site-header {
   position: sticky; top: 0; z-index: 100;
@@ -487,4 +496,46 @@ a.card:hover .card__link { text-decoration: underline; }
   .nav__backdrop { display: block; position: fixed; inset: 0; background: rgba(6,18,32,.5); opacity: 0; visibility: hidden; transition: .3s; z-index: 105; }
   body.menu-open .nav__backdrop { opacity: 1; visibility: visible; }
   body.menu-open { overflow: hidden; }
+}
+
+/* ---------- Clubs partenaires ---------- */
+.partners {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 22px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+.partner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 16px;
+  box-shadow: var(--shadow);
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+.partner:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.partner img {
+  width: 100%;
+  max-width: 120px;
+  height: 96px;
+  object-fit: contain;
+}
+.partner span {
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: .82rem;
+  color: var(--primary-dark);
+  text-align: center;
+  line-height: 1.25;
+}
+@media (max-width: 480px) {
+  .partners { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .partner { padding: 16px 10px; }
+  .partner img { height: 78px; }
 }
