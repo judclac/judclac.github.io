@@ -539,3 +539,5 @@ a.card:hover .card__link { text-decoration: underline; }
   .partner { padding: 16px 10px; }
   .partner img { height: 78px; }
 }
+
+.course-level { display:inline-block; font-family: var(--font-head); font-weight:600; font-size:.8rem; color:var(--primary); background:var(--bg-alt); border-radius:999px; padding:3px 11px; margin-bottom:2px; }
