@@ -125,7 +125,7 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.2; font-weight: 7
   display: flex; align-items: center; justify-content: space-between;
   height: var(--header-h); gap: 16px;
 }
-.nav__logo { display: flex; align-items: center; gap: 12px; font-family: var(--font-head); font-weight: 700; color: var(--primary-dark); }
+.nav__logo { display: flex; align-items: center; gap: 12px; font-family: var(--font-head); font-weight: 700; color: var(--primary-dark); flex-shrink: 0; }
 .nav__logo img { height: 46px; width: auto; border-radius: 6px; }
 .nav__logo span { display: none; } /* le logo allongé contient déjà le nom du club */
 
@@ -479,8 +479,8 @@ a.card:hover .card__link { text-decoration: underline; }
   .lightbox__inner { max-width: 620px; }
 }
 
-/* ---------- Menu mobile (burger) : sous 980px ---------- */
-@media (max-width: 980px) {
+/* ---------- Menu mobile (burger) : sous 1100px ---------- */
+@media (max-width: 1100px) {
   .nav__toggle { display: flex; }
   .nav__links {
     position: fixed; top: 0; right: 0; height: 100dvh; width: min(82vw, 330px);
